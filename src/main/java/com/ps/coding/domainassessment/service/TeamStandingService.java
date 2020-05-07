@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.ps.coding.domainassessment.exception.NotFoundException;
 import com.ps.coding.domainassessment.model.RequestBody;
 import com.ps.coding.domainassessment.model.Standings;
 import com.ps.coding.domainassessment.utils.LeagueFootballStore;
@@ -40,7 +41,7 @@ public class TeamStandingService implements ITeamStandingService {
 	}
 
 	@Override
-	public String teamStandings(String action, String leagueId, String apiKey) throws IOException {
+	public String teamStandings(String action, String leagueId, String apiKey) throws IOException, NotFoundException {
 		URL url = new URL(serviceUrl);
 		String urlParams = "action=" + action + "&league_id=" + leagueId + "&APIkey=" + apiKey;
 		byte[] requestData = urlParams.getBytes(StandardCharsets.UTF_8);
@@ -66,6 +67,9 @@ public class TeamStandingService implements ITeamStandingService {
 			in.close();
 		}
 		System.out.println("Response " + response.toString());
+		if(response.toString().contains("404")) {
+			throw new NotFoundException("Data not found for given params");
+		}
 		ObjectMapper mapper = new ObjectMapper();
 		SimpleFilterProvider filterProvider = new SimpleFilterProvider();
 		// only 'name' and 'age' will be serialized

@@ -14,6 +14,8 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import com.ps.coding.domainassessment.exception.NotFoundException;
+
 import junit.framework.Assert;
 
 /**
@@ -43,13 +45,13 @@ public class TeamStandingServiceTest {
 	}
 
 	@Test
-	public void testTeamStandingsReal() throws IOException {
+	public void testTeamStandingsReal() throws IOException, NotFoundException {
 		service.teamStandings("get_standings", "148",
 				"9bb66184e0c8145384fd2cc0f7b914ada57b4e8fd2e4d6d586adcc27c257a978");
 	}
 
 	@Test
-	public void testTeamStandingsReal404() throws IOException {
+	public void testTeamStandingsReal404() throws IOException, NotFoundException {
 		String response = service.teamStandings("get_standings2", "148", "9bb66184e0c8145384fd2cc0f7b914ada57b4e8fd2e4d6d586adcc27c257a978");
 		assertEquals("[]", response);
 	}

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ps.coding.domainassessment.exception.NotFoundException;
 import com.ps.coding.domainassessment.service.ITeamStandingService;
 
 /**
@@ -32,7 +33,7 @@ public class TeamStandingController {
 
 	@GetMapping("standings")
 	public ResponseEntity<String> getTeamStandings(@RequestParam(value = "action") String action,
-			@RequestParam(value = "league_id") String leagueId) throws MalformedURLException, ProtocolException, IOException {
+			@RequestParam(value = "league_id") String leagueId) throws MalformedURLException, ProtocolException, IOException, NotFoundException {
 		String response = iTeamStandingService.teamStandings(action, leagueId, apiKey);
 		return ResponseEntity.ok().body(response);
 
